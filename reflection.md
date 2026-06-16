@@ -7,6 +7,12 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - What did the game look like the first time you ran it?
 - List at least two concrete bugs you noticed at the start  
   (for example: "the hints were backwards").
+The game is straight forward to play the first time, but the logic is wrong in many areas. 
+1. The hint logic is backwards.
+2. The new game button does not clear history and what is printed on screen after winning.
+3. Final score does not match the score in the developer debug info, nor does it update correctly.
+4. Attempts left is always one less than the attempts allowed.
+5. Guesses do not accurately get added to history.
 
 **Bug Reproduction Log**
 
@@ -14,9 +20,9 @@ Document at least 3 bugs you found. Add rows as needed.
 
 | Input | Expected Behavior | Actual Behavior | Console Output / Error |
 |-------|-------------------|-----------------|------------------------|
-| | | | |
-| | | | |
-| | | | |
+| Guess: 50 |"Go Lower" hint | "Go Higher" hint | none |
+| Guess: 50, 75, 100, 25, 1 | History: [50, 75, 100, 25, 1] | History: [50, 75, 25] | none |
+| New game button | clears the history and score | Does not clear history and score | none |
 
 ---
 
