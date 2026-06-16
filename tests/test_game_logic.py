@@ -2,7 +2,7 @@ import pytest
 import random
 from logic_utils import check_guess, get_range_for_difficulty, update_score
 
-#FIX: 3 pytests, unpack tuples to compare to the expected result
+#FIX: 3 pytests, unpack tuples to compare to the expected result. one fixed manually, two fixed using ai
 def test_winning_guess():
     # If the secret is 50 and guess is 50, it should be a win
     result, outcome = check_guess(50, 50)
@@ -18,6 +18,7 @@ def test_guess_too_low():
     result, _ = check_guess(40, 50)
     assert result == "Too Low"
 
+# pytest added by ai to check if new game works
 def test_new_game_resets_state():
     # Simulate a mid-game session state
     session_state = {
@@ -45,6 +46,7 @@ def test_new_game_resets_state():
     assert session_state["score"] == 0
     assert low <= session_state["secret"] <= high
 
+# pytest added by ai t check for score logic
 @pytest.mark.parametrize("current_score,outcome,attempt_number,expected_score", [
     (0,   "Win",      1,  90),   # win early: 100 - 10*1 = 90
     (0,   "Win",      5,  50),   # win mid:   100 - 10*5 = 50
@@ -56,6 +58,8 @@ def test_new_game_resets_state():
 def test_score_updates(current_score, outcome, attempt_number, expected_score):
     assert update_score(current_score, outcome, attempt_number) == expected_score
 
+
+# pytest by ai to check if secret number and attempts left stays within difficulty level specs
 ATTEMPT_LIMITS = {"Easy": 6, "Normal": 8, "Hard": 5}
 
 @pytest.mark.parametrize("difficulty,expected_low,expected_high,expected_attempts", [

@@ -28,7 +28,7 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
-#FIX: changing difficulty updates the secret number and stores the difficulty level in current session
+#FIX: changing difficulty updates the secret number and stores the difficulty level in current session with ai
 if "secret" not in st.session_state or st.session_state.get("difficulty") != difficulty:
     st.session_state.secret = random.randint(low, high)
     st.session_state.difficulty = difficulty
@@ -47,7 +47,7 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-#FIX: placeholder for initial attempts left display
+#FIX: placeholder for initial attempts left display, with ai
 attempts_display = st.empty()
 attempts_display.info(
     #FIX: display with low/high variables instead of hardcoded range
@@ -55,7 +55,7 @@ attempts_display.info(
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
-# FIX: works with enter key input by using st.form
+# FIX: works with enter key input by using st.form, with ai suggestion
 with st.form("guess_form"):
     raw_guess = st.text_input(
         "Enter your guess:",
@@ -72,7 +72,7 @@ with st.form("guess_form"):
 if new_game:
     #FIX: starts attempts at 0 instead of 1 to show correct number of guesses and attempts left
     st.session_state.attempts = 0
-    #FIX: new game button resets the game properly, clears history, and changes the status 
+    #FIX: new game button resets the game properly, clears history, and changes the status with ai
     st.session_state.secret = random.randint(low, high)
     st.session_state.status = "playing"
     st.session_state.history = []
@@ -89,7 +89,7 @@ if st.session_state.status != "playing":
 
 if submit:
     st.session_state.attempts += 1
-    #FIX: updates the attempts left display after each guess 
+    #FIX: updates the attempts left display after each guess with ai
     attempts_display.info(
         f"Guess a number between {low} and {high}. "
         f"Attempts left: {attempt_limit - st.session_state.attempts}"
@@ -135,7 +135,7 @@ if submit:
                     f"Score: {st.session_state.score}"
                 )
 
-# FIXED: score displays to user and shows the correct score after each guess
+# FIXED: score displays to user and shows the correct score after each guess with ai.
 st.metric("Score", st.session_state.score)
 
 with st.expander("Developer Debug Info"):
