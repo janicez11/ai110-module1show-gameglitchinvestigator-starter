@@ -70,9 +70,13 @@ with st.form("guess_form"):
         show_hint = st.checkbox("Show hint", value=True)
 
 if new_game:
-    #FIXED: starts attempts at 0 instead of 1 to show correct number of guesses and attempts left
+    #FIX: starts attempts at 0 instead of 1 to show correct number of guesses and attempts left
     st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+    #FIX: new game button resets the game properly, clears history, and changes the status 
+    st.session_state.secret = random.randint(low, high)
+    st.session_state.status = "playing"
+    st.session_state.history = []
+    st.session_state.score = 0
     st.success("New game started.")
     st.rerun()
 
