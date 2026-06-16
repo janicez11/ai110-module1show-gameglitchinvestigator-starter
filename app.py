@@ -1,16 +1,6 @@
 import random
 import streamlit as st
-from logic_utils import check_guess, parse_guess, update_score
-
-def get_range_for_difficulty(difficulty: str):
-    if difficulty == "Easy":
-        return 1, 20
-    if difficulty == "Normal":
-        return 1, 100
-    if difficulty == "Hard":
-        return 1, 50
-    return 1, 100
-
+from logic_utils import check_guess, get_range_for_difficulty, parse_guess, update_score
 
 
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
@@ -38,8 +28,10 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
-if "secret" not in st.session_state:
+#FIX: changing difficulty updates the secret number and stores the difficulty level in current session
+if "secret" not in st.session_state or st.session_state.get("difficulty") != difficulty:
     st.session_state.secret = random.randint(low, high)
+    st.session_state.difficulty = difficulty
 
 if "attempts" not in st.session_state:
     st.session_state.attempts = 0
@@ -58,7 +50,8 @@ st.subheader("Make a guess")
 #FIX: placeholder for initial attempts left display
 attempts_display = st.empty()
 attempts_display.info(
-    f"Guess a number between 1 and 100. "
+    #FIX: display with low/high variables instead of hardcoded range
+    f"Guess a number between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
@@ -94,7 +87,7 @@ if submit:
     st.session_state.attempts += 1
     #FIX: updates the attempts left display after each guess 
     attempts_display.info(
-        f"Guess a number between 1 and 100. "
+        f"Guess a number between {low} and {high}. "
         f"Attempts left: {attempt_limit - st.session_state.attempts}"
     )
 
