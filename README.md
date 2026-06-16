@@ -26,18 +26,40 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [ ] Describe the game's purpose.
+Guess the secret number.
+
 - [ ] Detail which bugs you found.
+1. Hint logic reversed
+2. New game button did not reset game
+3. Input type error
+4. Difficulty level not updating paramteres
+5. Hardcoded displays
+6. Score logic error
+7. Attempts left off by one error
+8. Enter key not implemented
+
 - [ ] Explain what fixes you applied.
+1. Reverse the guess comparison logic
+2. Reset all paramteres when new game button is pressed
+3. Cast input to int to compare
+4. Generate secret number based on difficulty level range
+5. Replace hardcoded with variables
+6. Fix confusing score logic and show to user
+7. Start attempts with the proper number
+8. Use st.form to capture Enter key input
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User selects difficulty level "Hard" with 5 attempts allowed and the secret number should be between 1 to 50. The secret number it generated is 4.
+2. User enters a guess of 25 and the game shows hint "go lower"
+3. Score and attempts left updates correctly.
+4. User enters a guess of 1 and the game shows hint 'go higher"
+5. Score and attempts left updated correctly.
+6. User enters a guess of 4 and the game shows "you won!" with a final score of 60.
+7. User clicks on new game button and a new secret number is generated. It is 30.
+8. Score resets to 0, attempts left resets properly, and history clears.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
