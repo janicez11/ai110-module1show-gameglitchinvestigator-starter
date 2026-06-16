@@ -55,23 +55,26 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-st.info(
+#FIX: placeholder for initial attempts left display
+attempts_display = st.empty()
+attempts_display.info(
     f"Guess a number between 1 and 100. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
-raw_guess = st.text_input(
-    "Enter your guess:",
-    key=f"guess_input_{difficulty}"
-)
-
-col1, col2, col3 = st.columns(3)
-with col1:
-    submit = st.button("Submit Guess 🚀")
-with col2:
-    new_game = st.button("New Game 🔁")
-with col3:
-    show_hint = st.checkbox("Show hint", value=True)
+# FIX: works with enter key input by using st.form
+with st.form("guess_form"):
+    raw_guess = st.text_input(
+        "Enter your guess:",
+        key=f"guess_input_{difficulty}"
+    )
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        submit = st.form_submit_button("Submit Guess 🚀")
+    with col2:
+        new_game = st.form_submit_button("New Game 🔁")
+    with col3:
+        show_hint = st.checkbox("Show hint", value=True)
 
 if new_game:
     #FIXED: starts attempts at 0 instead of 1 to show correct number of guesses and attempts left
@@ -89,6 +92,11 @@ if st.session_state.status != "playing":
 
 if submit:
     st.session_state.attempts += 1
+    #FIX: updates the attempts left display after each guess 
+    attempts_display.info(
+        f"Guess a number between 1 and 100. "
+        f"Attempts left: {attempt_limit - st.session_state.attempts}"
+    )
 
     ok, guess_int, err = parse_guess(raw_guess)
 
