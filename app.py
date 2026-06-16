@@ -1,6 +1,6 @@
 import random
 import streamlit as st
-from logic_utils import check_guess, parse_guess
+from logic_utils import check_guess, parse_guess, update_score
 
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
@@ -12,19 +12,6 @@ def get_range_for_difficulty(difficulty: str):
     return 1, 100
 
 
-
-def update_score(current_score: int, outcome: str, attempt_number: int):
-    if outcome == "Win":
-        # FIXME: Logic breaks here
-        points = 100 - 10 * attempt_number
-        if points < 10:
-            points = 10
-        return current_score + points
-    # FIXME: Logic breaks here
-    if outcome in ("Too High", "Too Low"):
-        return current_score - 5
-
-    return current_score
 
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
 
@@ -55,7 +42,7 @@ if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 1
+    st.session_state.attempts = 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -68,20 +55,10 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-# added with ai to show score count to user
-st.metric("Score", st.session_state.score if "score" in st.session_state else 0)
-
 st.info(
     f"Guess a number between 1 and 100. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
-
-with st.expander("Developer Debug Info"):
-    st.write("Secret:", st.session_state.secret)
-    st.write("Attempts:", st.session_state.attempts)
-    st.write("Score:", st.session_state.score)
-    st.write("Difficulty:", difficulty)
-    st.write("History:", st.session_state.history)
 
 raw_guess = st.text_input(
     "Enter your guess:",
@@ -97,6 +74,7 @@ with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
 if new_game:
+    #FIXED: starts attempts at 0 instead of 1 to show correct number of guesses and attempts left
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
     st.success("New game started.")
@@ -151,6 +129,16 @@ if submit:
                     f"The secret was {st.session_state.secret}. "
                     f"Score: {st.session_state.score}"
                 )
+
+# FIXED: score displays to user and shows the correct score after each guess
+st.metric("Score", st.session_state.score)
+
+with st.expander("Developer Debug Info"):
+    st.write("Secret:", st.session_state.secret)
+    st.write("Attempts:", st.session_state.attempts)
+    st.write("Score:", st.session_state.score)
+    st.write("Difficulty:", difficulty)
+    st.write("History:", st.session_state.history)
 
 st.divider()
 st.caption("Built by an AI that claims this code is production-ready.")

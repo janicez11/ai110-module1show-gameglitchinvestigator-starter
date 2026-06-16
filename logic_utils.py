@@ -25,7 +25,7 @@ def parse_guess(raw: str):
 
     return True, value, None
 
-
+#FIX: refactored from app.py using ai, fixed high/low reversed logic, cast input to int for comparison
 def check_guess(guess, secret):
     """
     Compare guess to secret and return (outcome, message).
@@ -40,7 +40,16 @@ def check_guess(guess, secret):
         return "Too High", "📉 Go LOWER!"
     return "Too Low", "📈 Go HIGHER!"
 
-
+#FIX: score calculation logic with ai, refactored from app.py
 def update_score(current_score: int, outcome: str, attempt_number: int):
     """Update score based on outcome and attempt number."""
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    if outcome == "Win":
+        points = 100 - 10 * attempt_number
+        if points < 10:
+            points = 10
+        return current_score + points
+
+    if outcome in ("Too High", "Too Low"):
+        return current_score - 5
+
+    return current_score
